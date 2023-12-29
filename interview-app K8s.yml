@@ -1,0 +1,37 @@
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: interview-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: interview
+  template: # template of the pod
+    metadata:
+      name: interview-app
+      labels:
+        app: interview
+    spec:
+      containers:
+        - name: interview-app container
+          image: benadabankah/devops-interview-app:latest
+          ports: 
+            - containerPort: 8501
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: interview-app
+spec:
+  selector:
+    app: interview
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 8501
+    nodePort: 30031
+    
